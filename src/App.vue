@@ -19,7 +19,8 @@
   // demonstrating tapping into the change in feature flags so you don't just see the effect
   // but also see notification of the change
   const showFlagChange = (newValue: string, oldValue: string) => {
-      toast.add({severity:'success', summary: 'The header image path flag changed!', detail:`Changed from ${oldValue} to ${newValue}`, life: 3000});
+    console.log(`feature header image path changed from ${oldValue} to ${newValue}`)
+    toast.add({severity:'success', summary: 'The header image path flag changed!', detail:`Changed from ${oldValue} to ${newValue}`, life: 3000});
   }
 
   watch(headerImageFlag, showFlagChange)

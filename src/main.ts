@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createRouter, createWebHashHistory} from 'vue-router'
 import App from './App.vue'
 import PrimeVue from 'primevue/config'
 import Button from 'primevue/button';
@@ -10,6 +11,10 @@ import Column from 'primevue/column';
 import Toast from 'primevue/toast';
 import ProgressBar from 'primevue/progressbar';
 import ToastService from 'primevue/toastservice';
+import Dropdown from 'primevue/dropdown';
+import InputText from 'primevue/inputtext';
+import Menubar from 'primevue/menubar';
+
 
 import { LDPlugin, LDPluginOptions } from 'launchdarkly-vue-client-sdk'
 
@@ -18,7 +23,15 @@ import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';  
 import 'primeflex/primeflex.css';
 
+const routes = [{ path: "/", component: App }];
+
+const router = createRouter({
+    history: createWebHashHistory(),
+    routes
+});
+
 const app = createApp(App);
+app.use(router);
 app.use(PrimeVue);
 
 const launchDarklyPluginOptions: LDPluginOptions = {
@@ -35,5 +48,8 @@ app.component('DataTable', DataTable);
 app.component('Column', Column);
 app.component('Toast', Toast);
 app.component('ProgressBar', ProgressBar);
+app.component('Dropdown', Dropdown);
+app.component('InputText', InputText);
+app.component('Menubar', Menubar);
 
 app.mount('#app');
