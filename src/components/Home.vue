@@ -8,6 +8,7 @@ import FirstName from './FirstName.vue'
 import StatePicker from './StatePicker.vue'
 import Initializer from './Initializer.vue';
 import Menu from './Menu.vue';
+import Header from './Header.vue';
 
 // enable display of Toast notifications on feature flag changes
 const toast = useToast();
@@ -17,14 +18,13 @@ const showFailure = () => {
     return true;
 }
 
-const headerImagePath = inject('headerImagePath')
-
 // demonstrating tapping into the change in feature flags so you don't just see the effect
 // but also see notification of the change
 const notify = (flagName: string) => (newValue: any, oldValue: any) => {
     console.log(`feature ${flagName} changed from ${oldValue} to ${newValue}`)
     toast.add({severity:'success', summary: `The ${flagName} flag changed!`, detail:`Changed from ${oldValue} to ${newValue}`, life: 3000});
 }
+
 provide('notify', notify);
 
 </script>
@@ -32,11 +32,14 @@ provide('notify', notify);
 <template >
     <Toast position="top-right"/>
     <Panel>
-        <template #header>
-            <Image image-class="p-image-preview" v-bind:src="headerImagePath" alt="A friendly little badger" />
-        </template>
         <div v-if="useLDReady()">
+            <Header></Header>
             <Initializer />
+            <Panel>
+            <Menu> </Menu>
+            <StatePicker />
+            <FirstName />
+        </Panel>
         </div>
         <div v-else>
             <Message 
@@ -45,10 +48,5 @@ provide('notify', notify);
             <Image src="./logo.png" alt="A friendly little badger" />
             <template v-if="showFailure()"></template>
         </div>
-        <Panel>
-            <Menu> </Menu>
-            <StatePicker />
-            <FirstName />
-        </Panel>
     </Panel>
 </template>
