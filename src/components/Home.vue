@@ -3,7 +3,6 @@ import Image from 'primevue/image';
 import Panel from 'primevue/panel';
 import { inject, provide } from 'vue'
 import { useToast } from "primevue/usetoast";
-import { useLDReady  } from 'launchdarkly-vue-client-sdk'
 import FirstName from './FirstName.vue'
 import StatePicker from './StatePicker.vue'
 import Initializer from './Initializer.vue';
@@ -13,11 +12,6 @@ import Header from './Header.vue';
 // enable display of Toast notifications on feature flag changes
 const toast = useToast();
 
-const showFailure = () => {
-    toast.add({severity:'error', summary: 'LaunchDarkly Initialization Failed'})
-    return true;
-}
-
 // demonstrating tapping into the change in feature flags so you don't just see the effect
 // but also see notification of the change
 const notify = (flagName: string) => (newValue: any, oldValue: any) => {
@@ -26,27 +20,28 @@ const notify = (flagName: string) => (newValue: any, oldValue: any) => {
 }
 
 provide('notify', notify);
+const isLaunchDarklyReady = inject('isLaunchDarklyReady', false);
 
 </script>
 
 <template >
     <Toast position="top-right"/>
     <Panel>
-        <div v-if="useLDReady()">
-            <Header></Header>
+        <div v-if="isLaunchDarklyReady">
+            <Header />
             <Initializer />
             <Panel>
-            <Menu> </Menu>
-            <StatePicker />
-            <FirstName />
-        </Panel>
+                <Menu />
+                <StatePicker />
+                <FirstName />
+            </Panel>
         </div>
         <div v-else>
-            <Message 
-                severity="error">LaunchDarkly Client Initialization Failed!! Here's a friendly badger to keep you company!
+            <Message severity="error">
+                LaunchDarkly Client Initialization Failed!! Here's a friendly badger to keep you company!
             </Message>
+            <Message severity="warn">You're probably still setting up or you need to add your client ID to the `.env` file</Message>
             <Image src="./logo.png" alt="A friendly little badger" />
-            <template v-if="showFailure()"></template>
         </div>
     </Panel>
 </template>

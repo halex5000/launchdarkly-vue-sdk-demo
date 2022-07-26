@@ -34,11 +34,13 @@ const app = createApp(App);
 app.use(router);
 app.use(PrimeVue);
 
-const launchDarklyPluginOptions: LDPluginOptions = {
-    clientSideID: import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID,
-};
+if (import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID) {
+    const launchDarklyPluginOptions: LDPluginOptions = {
+        clientSideID: import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID,
+    };
+    app.use(LDPlugin, launchDarklyPluginOptions)
+}
 
-app.use(LDPlugin, launchDarklyPluginOptions)
 app.use(ToastService);
 app.component('Button', Button);
 app.component('Image', Image);
