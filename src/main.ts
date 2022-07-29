@@ -63,5 +63,4 @@ app.component('Menu', Menu);
 app.component('PanelMenu', PanelMenu);
 app.component('Splitter', Splitter);
 app.component('SplitterPanel', SplitterPanel);
-
 app.mount('#app');

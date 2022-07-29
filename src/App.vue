@@ -1,3 +1,8 @@
+
+<template>
+  <Home />
+</template>
+
 <script setup lang="ts">
   import Home from './components/Home.vue'
   import { useLDFlag, useLDReady } from 'launchdarkly-vue-client-sdk'
@@ -27,6 +32,8 @@
       toast.add({severity:'success', summary: 'The header image path flag changed!', detail:`Changed from ${oldValue} to ${newValue}`, life: 3000});
     }
 
+    // while the usage of flags in templates is reactive, those values aren't reactive here in the setup block which
+    // only runs on setup, so we need to watch for changes after the flag reference is created
     watch(headerImageFlag, showFlagChange)
     provide('isLaunchDarklyReady', isReady);
   } catch (error) {
@@ -34,7 +41,3 @@
   }
 
 </script>
-
-<template>
-  <Home />
-</template>

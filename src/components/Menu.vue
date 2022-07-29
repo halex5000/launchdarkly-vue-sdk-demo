@@ -28,6 +28,12 @@
         menu.value.toggle(event);
     }
 
+    /**
+     * menu=style is a string indicating which menu-style should be served to the user
+     * this is non-binary flag because we have a number of variations which could be served
+     * we can target users by all sort of criteria based on what we include in the data we send to 
+     * LaunchDarkly
+     */
     const menuStyle = useLDFlag('menu-display', 'inline');
     let showInline = ref(false || menuStyle.value === 'inline');
     let showPanel = ref(false || menuStyle.value === 'panel');
@@ -50,13 +56,7 @@
         }
     })
 
-    /**
-     * we can use feature flags to bring objects in to help change our application
-     * without changing the code
-     * 
-     * we can use these to populate forms, change validation rules, even present messaging to the user
-     */
-    const menuOptions = useLDFlag('menu-options', [
+    const menuOptions = [
             {
                 label: 'Options',
                 items: [{
@@ -73,22 +73,6 @@
                         toast.add({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted', life: 3000});
                     }
                 }
-            ]},
-            {
-                label: 'Navigate',
-                items: [{
-                    label: 'Vue Website',
-                    icon: 'pi pi-external-link',
-                    url: 'https://vuejs.org/',
-                },
-                {
-                    label: 'Router',
-                    icon: 'pi pi-upload',
-                    command: () => {
-                        window.location.hash = "/fileupload"
-                    }
-                }
             ]}
         ]
-    )
 </script>
