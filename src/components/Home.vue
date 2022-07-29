@@ -8,6 +8,7 @@ import StatePicker from './StatePicker.vue'
 import Initializer from './Initializer.vue';
 import Menu from './Menu.vue';
 import Header from './Header.vue';
+import { useLDFlag } from 'launchdarkly-vue-client-sdk'
 
 // enable display of Toast notifications on feature flag changes
 const toast = useToast();
@@ -22,19 +23,36 @@ const notify = (flagName: string) => (newValue: any, oldValue: any) => {
 provide('notify', notify);
 const isLaunchDarklyReady = inject('isLaunchDarklyReady', false);
 
+const targetingEnablement = useLDFlag('targeting-enablement', {
+    name: false,
+    state: false,
+});
+
+const menuStyle = useLDFlag('menu-display', '');
+
 </script>
 
 <template >
     <Toast position="top-right"/>
-    <Panel>
+    <Panel class="align-items-center justify-content-center p-panel" header="LaunchDarkly Demo Vue App">
         <div v-if="isLaunchDarklyReady">
             <Header />
             <Initializer />
-            <Panel>
-                <Menu />
-                <StatePicker />
-                <FirstName />
-            </Panel>
+            <Splitter layout="vertical" v-if="menuStyle">
+                <SplitterPanel>
+                    <Menu />
+                </SplitterPanel>
+                <SplitterPanel>
+                    <Splitter v-if="targetingEnablement.state || targetingEnablement.name">
+                        <SplitterPanel  v-if="targetingEnablement.name" class="flex align-items-center justify-content-center">
+                            <FirstName />
+                        </SplitterPanel>
+                        <SplitterPanel v-if="targetingEnablement.state" class="flex align-items-center justify-content-center">
+                           <StatePicker />
+                        </SplitterPanel>
+                    </Splitter>
+                </SplitterPanel>
+            </Splitter>
         </div>
         <div v-else>
             <Message severity="error">

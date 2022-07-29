@@ -2,7 +2,6 @@
   "name": "launchdarkly-vue-sdk-demo-3",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "engines": {
     "node": ">=16.16.0 <=18.6.0",
     "npm": ">=8.11.0 <=8.13.2"
@@ -10,7 +9,161 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "setup": ""
+  },
+  "launchdarkly": {
+    "project": {
+      "name": "default",
+      "flags": [
+        {
+          "name": "Available States",
+          "key": "available-states",
+          "description": "The available states to show in the drop down",
+          "variations": [
+            {
+              "value": [
+                "MA",
+                "NH",
+                "ME",
+                "CT",
+                "RI"
+              ],
+              "name": "New England Only",
+              "description": "only the New England States"
+            },
+            {
+              "value": [
+                "CA",
+                "FL",
+                "TX"
+              ],
+              "name": "Warm states",
+              "description": "only the warm states"
+            }
+          ]
+        },
+        {
+          "name": "First Name Validation Rules",
+          "key": "first-name-validation-rules",
+          "description": "Used for validating user first name",
+          "variations": [
+            {
+              "maxLength": 10,
+              "minLength": 4
+            },
+            {
+              "maxLength": 27,
+              "minLength": 2
+            }
+          ]
+        },
+        {
+          "name": "Menu Options",
+          "key": "menu-options",
+          "description": "Dynamically describe the menu options in the form",
+          "variations": [
+            {
+              "value": [
+                {
+                  "icon": "pi pi-fw pi-file",
+                  "items": [
+                    {
+                      "icon": "pi pi-fw pi-plus",
+                      "items": [
+                        {
+                          "icon": "pi pi-fw pi-bookmark",
+                          "label": "Bookmark"
+                        },
+                        {
+                          "icon": "pi pi-fw pi-video",
+                          "label": "Video"
+                        }
+                      ],
+                      "label": "New"
+                    },
+                    {
+                      "icon": "pi pi-fw pi-trash",
+                      "label": "Delete"
+                    },
+                    {
+                      "separator": true
+                    },
+                    {
+                      "icon": "pi pi-fw pi-external-link",
+                      "label": "Export"
+                    }
+                  ],
+                  "label": "File"
+                }
+              ]
+            },
+            {
+              "value": []
+            }
+          ]
+        },
+        {
+          "name": "Progress Speed",
+          "key": "progress-speed",
+          "description": "Controls the speed at which we show progress in loading the SDK",
+          "variations": [
+            {
+              "name": "Snail",
+              "description": "Super duper slow",
+              "value": 1000
+            },
+            {
+              "name": "Slow",
+              "description": "Slow, just slow",
+              "value": 500
+            },
+            {
+              "name": "Peppy",
+              "description": "Fast enough, but looks slow",
+              "value": 100
+            },
+            {
+              "name": "Speedy",
+              "description": "This goes fast!",
+              "value": 10
+            },
+            {
+              "name": "Lightning",
+              "description": "The user barely gets a chance to see this in action it's so fast",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Header Image",
+          "key": "header-image",
+          "description": "This feature controls the path to the header image",
+          "variations": [
+            {
+              "name": "Badger",
+              "description": "A handsome little badger",
+              "value": "./logo.png"
+            },
+            {
+              "name": "The Better Badger Header",
+              "description": "An actual badger header, not just a big ol badger",
+              "value": "./logo.jpeg"
+            },
+            {
+              "name": "LaunchDarkly Official",
+              "description": "The official on-brand LaunchDarkly logo",
+              "value": "./LaunchDarkly-black.png"
+            }
+          ]
+        },
+        {
+          "name": "Display Feature Flag Changes",
+          "key": "display-feature-flag",
+          "description": "Used to control the speed of the initializer"
+        }
+      ]
+    }
   },
   "dependencies": {
     "@vuelidate/core": "^2.0.0-alpha.42",
@@ -27,5 +180,6 @@
     "typescript": "^4.6.4",
     "vite": "^3.0.0",
     "vue-tsc": "^0.38.4"
-  }
+  },
+  "flags": []
 }

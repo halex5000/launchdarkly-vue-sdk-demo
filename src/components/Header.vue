@@ -1,4 +1,4 @@
-<template #header>
+<template #header class="p-panel-header">
     <Image image-class="p-image-preview" v-bind:src="headerImagePath" alt="A friendly little badger" />
 </template>
 
